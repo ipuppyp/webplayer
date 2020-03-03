@@ -1,0 +1,127 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omp3p.com/facelets" >
+
+    <ui:define name="title">OpenMp3Player</ui:define>
+    
+    <ui:define name="header">
+    	<h:panelGrid columns="2" width="100%">
+					
+			<h:panelGrid columns="2" styleClass="valign-middle">
+				<h:form>
+					<h:commandLink action="home">
+						<o:icon img="DMD"/>
+					</h:commandLink>
+				</h:form>
+				<h:outputText value="Song details" styleClass="title" />
+			</h:panelGrid>
+			
+			<ui:include src="/includes/toolbar.xhtml"/>
+		
+		</h:panelGrid>
+		<hr/>
+		
+		<h:panelGrid columns="2" styleClass="valign-middle">
+			<h:form>
+				<h:commandLink action="home">
+					<o:icon img="back"/>
+				</h:commandLink>
+			</h:form>
+			<h:form>
+				<h:commandLink action="home">
+					<h:outputLabel value="Back" styleClass="text-white largeText"></h:outputLabel>
+				</h:commandLink>
+			</h:form>
+		</h:panelGrid>
+		<hr/>
+    </ui:define>
+    
+    <ui:define name="content">
+        <h:panelGrid columns="2">
+			<h:outputLabel value="Title:" styleClass="text-white"></h:outputLabel>
+			<h:outputLabel value="#{songBean.mp3File.title}" styleClass="text-white"></h:outputLabel>
+			
+			<h:outputLabel value="Artist:" styleClass="text-white"></h:outputLabel>
+			<h:outputLabel value="#{songBean.mp3File.artist}" styleClass="text-white"></h:outputLabel>
+			
+			<h:outputLabel value="Album:" styleClass="text-white"></h:outputLabel>
+			<h:outputLabel value="#{songBean.mp3File.album}" styleClass="text-white"></h:outputLabel>
+			
+			<h:outputLabel value="Genre:" styleClass="text-white"></h:outputLabel>
+			<h:outputLabel value="#{songBean.mp3File.genre}" styleClass="text-white"></h:outputLabel>
+			
+			<h:outputLabel value="Year:" styleClass="text-white"></h:outputLabel>
+			<h:outputLabel value="#{songBean.mp3File.year}" styleClass="text-white"></h:outputLabel>
+			
+			<h:outputLabel value="Path:" styleClass="text-white"></h:outputLabel>
+			<h:outputLabel value="#{songBean.mp3File.path}" styleClass="text-white"></h:outputLabel>
+			
+			<h:outputLabel value="Played:" styleClass="text-white"></h:outputLabel>
+			<h:outputLabel value="#{songBean.mp3File.count}x" styleClass="text-white"></h:outputLabel>
+			
+			<h:outputLabel value="Last played:" styleClass="text-white"></h:outputLabel>
+			<h:outputLabel value="#{songBean.mp3File.lastPlayedTime}" styleClass="text-white"></h:outputLabel>
+			</h:panelGrid>
+			
+			<hr/>
+			
+			<h:form>
+				<h:outputText value="Rate song: " styleClass="text-white" />
+				<h:selectOneRadio value="#{songBean.numberOfStars}" onchange="submit()"
+					valueChangeListener="#{songBean.starsSelected}" styleClass="text-white">
+					<f:selectItems value="#{songBean.starsMap}" />
+				</h:selectOneRadio>
+			</h:form>
+			
+			<hr/>
+			
+			<h:form>
+				<h:outputText value="Select background color: " styleClass="text-white" />
+				<h:selectOneMenu onchange="submit()" value="#{songBean.selectedBackgroundColor}"
+					valueChangeListener="#{songBean.backgroundColorSelected}">
+					<f:selectItems value="#{songBean.backgroundColorItems}"/>
+				</h:selectOneMenu>
+				<h:outputText value="Example" style="background-color: #{songBean.selectedBackgroundColorValue}" styleClass="tagBorder" />
+				<h:commandButton action="#{songBean.removeBackgroundColor}" value="Remove color"></h:commandButton>
+			</h:form>
+			
+			<hr/>
+			
+			<h:dataTable value="#{songBean.tagList}" var="tag" 
+				cellpadding="0" cellspacing="0" >
+				
+				<h:column>
+					<o:tag value="#{tag}"/>
+				</h:column>
+				
+				<h:column>
+					<h:form>
+						<h:commandLink action="#{songBean.removeTag(tag)}" title="Remove tag">
+							<o:icon img="remove-small"/>
+						</h:commandLink>
+					</h:form>
+				</h:column>
+				
+			</h:dataTable>
+						
+			<hr/>
+			
+			<h:form>
+				<h:outputText value="Select new tag: " styleClass="text-white" />
+				<h:selectOneMenu onchange="submit()" value="#{songBean.selectedTag}"
+					valueChangeListener="#{songBean.tagSelected}">
+					<f:selectItems value="#{songBean.tagItems}"/>
+				</h:selectOneMenu>
+			</h:form>
+			
+			<hr/>
+    </ui:define>
+	
+	<ui:define name="version">
+        <ui:include src="/includes/version.xhtml"/>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,66 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omp3p.com/facelets" >
+
+    <ui:define name="title">OpenMp3Player</ui:define>
+	
+	<ui:define name="header">
+    	<h:panelGrid columns="2" width="100%">
+					
+			<h:panelGrid columns="2" styleClass="valign-middle">
+				<h:form>
+					<h:commandLink action="home">
+						<o:icon img="DMD"/>
+					</h:commandLink>
+				</h:form>
+				<h:outputText value="Add new playlist" styleClass="title" />
+			</h:panelGrid>
+			
+			<ui:include src="/includes/toolbar.xhtml"/>
+		
+		</h:panelGrid>
+		<hr/>
+		
+		<h:panelGrid columns="2" styleClass="valign-middle">
+			<h:form>
+				<h:commandLink action="playlists">
+					<o:icon img="back"/>
+				</h:commandLink>
+			</h:form>
+			<h:form>
+				<h:commandLink action="playlists">
+					<h:outputLabel value="Back" styleClass="text-white largeText"></h:outputLabel>
+				</h:commandLink>
+			</h:form>
+		</h:panelGrid>
+		<hr/>
+    </ui:define>
+    
+    <ui:define name="content">
+        <h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Playlist Name: " styleClass="text-white"></h:outputLabel>
+				<h:inputText value="#{addPlaylistBean.name}" required="true">
+					<f:validator validatorId="playlistValidator"/>
+				</h:inputText>
+				<h:outputLabel value="Enter directory: " styleClass="text-white"></h:outputLabel>
+				<h:inputText value="#{addPlaylistBean.source}" required="true">
+					<f:validator validatorId="directoryValidator"/>
+				</h:inputText>
+				<h:commandButton action="#{addPlaylistBean.addPlaylist}" value="Add"></h:commandButton>
+			</h:panelGrid>
+			
+		</h:form>
+		<h:messages layout="table" showDetail="true" showSummary="false" styleClass="error"></h:messages>
+		<hr/>
+    </ui:define>
+    
+    <ui:define name="version">
+        <ui:include src="/includes/version.xhtml"/>
+    </ui:define>
+    
+
+</ui:composition>

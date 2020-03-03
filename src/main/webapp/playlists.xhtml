@@ -1,0 +1,88 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omp3p.com/facelets" >
+
+	<ui:define name="title">OpenMp3Player</ui:define>
+	
+	<ui:define name="header">
+    	<h:panelGrid columns="2" width="100%">
+					
+			<h:panelGrid columns="2" styleClass="valign-middle">
+				<h:form>
+					<h:commandLink action="home">
+						<o:icon img="DMD"/>
+					</h:commandLink>
+				</h:form>
+				<h:outputText value="Playlists" styleClass="title" />
+			</h:panelGrid>
+			
+			<ui:include src="/includes/toolbar.xhtml"/>
+		
+		</h:panelGrid>
+		<hr/>
+		
+		<h:panelGrid columns="2" styleClass="valign-middle">
+			<h:form>
+				<h:commandLink action="addPlaylist">
+					<o:icon img="addPlaylist"/>
+				</h:commandLink>
+			</h:form>
+			<h:form>
+				<h:commandLink action="addPlaylist">
+					<h:outputLabel value="Add mp3s from directory" styleClass="text-white largeText"></h:outputLabel>
+				</h:commandLink>
+			</h:form>
+		</h:panelGrid>
+		<hr/>
+		
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h:panelGrid columns="1" styleClass="background" width="100%" >
+			<h:dataTable value="#{playlistsBean.playlistsList}" var="plist"
+				rowClasses="table-odd-row,table-even-row" cellpadding="0" cellspacing="0" width="100%">
+				
+				<h:column>
+					<h:form>
+						<h:commandLink action="#{playlistsBean.gotoPlaylist(plist)}" title="Goto">
+							<o:icon img="#{plist.sourceDirectory == true ? 'folder' : 'customplaylist'}"/>
+						</h:commandLink>
+					</h:form>
+				</h:column>
+				
+				<h:column>
+					<h:outputText value="#{plist.name}" styleClass="largeText" /><br/>
+					<h:outputText value="Directory: #{plist.source}" rendered="#{plist.sourceDirectory}" />
+				</h:column>
+				
+				<h:column>
+					<h:form>
+						<h:commandLink action="#{playlistsBean.reloadPlaylist(plist)}" title="Reload from directory" rendered="#{plist.sourceDirectory}">
+							<o:icon img="refresh"/>
+						</h:commandLink>
+					</h:form>
+				</h:column>
+				
+				<h:column>
+					<h:form>
+						<h:commandLink action="#{playlistsBean.deletePlaylist(plist)}" title="Remove" rendered="#{!plist.queue}">
+							<o:icon img="remove"/>
+						</h:commandLink>
+					</h:form>
+				</h:column>
+				
+			</h:dataTable>
+		</h:panelGrid>
+		<hr/>
+    </ui:define>
+    
+    
+    <ui:define name="version">
+        <ui:include src="/includes/version.xhtml"/>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,70 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omp3p.com/facelets" >
+
+    <ui:define name="title">OpenMp3Player</ui:define>
+	
+	<ui:define name="header">
+    	<h:panelGrid columns="2" width="100%">
+					
+			<h:panelGrid columns="2" styleClass="valign-middle">
+				<h:form>
+					<h:commandLink action="home">
+						<o:icon img="DMD"/>
+					</h:commandLink>
+				</h:form>
+				<h:outputText value="Queue" styleClass="title" />
+			</h:panelGrid>
+			
+			<ui:include src="/includes/toolbar.xhtml"/>
+		
+		</h:panelGrid>
+		<hr/>
+		
+		<h:panelGrid columns="2" width="100%" rendered="#{playlistBean.queue}">
+						
+			<h:form>
+				<h:panelGrid columns="3">
+					<h:outputLabel value="Save queue as: " styleClass="text-white largeText"></h:outputLabel>
+					<h:inputText value="#{queueBean.newQueueName}" required="true">
+						<f:validator validatorId="playlistValidator"/>
+					</h:inputText>
+					<h:commandButton action="#{queueBean.saveQueue}" value="Save"></h:commandButton>
+				</h:panelGrid>
+				<h:messages layout="table" showDetail="true" showSummary="false" styleClass="error"></h:messages>
+			</h:form>
+			
+			<h:panelGroup styleClass="align-right valign-middle">
+				<h:form>
+					<h:commandLink action="#{queueBean.emptyQueue}">
+						<h:outputLabel value="Empty queue " styleClass="text-white largeText"></h:outputLabel>
+						<h:commandButton action="#{queueBean.emptyQueue}" value="Empty"></h:commandButton>
+					</h:commandLink>
+				</h:form>
+			</h:panelGroup>
+		
+		</h:panelGrid>
+		<hr/>
+    </ui:define>
+    
+    
+    <ui:define name="player">
+        <ui:include src="/includes/player-gui.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="content">
+        <ui:include src="/includes/playlist.xhtml"/>
+        <hr/>
+		<h:outputLabel value="Size: #{playlistBean.playlistSize}" styleClass="text-white"></h:outputLabel>
+    </ui:define>
+    
+    
+    <ui:define name="version">
+        <ui:include src="/includes/version.xhtml"/>
+    </ui:define>
+
+</ui:composition>

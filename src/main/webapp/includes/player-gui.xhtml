@@ -1,0 +1,68 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omp3p.com/facelets" >
+    
+    <h:form>
+    	<h:panelGrid columns="4">
+	
+			<h:commandLink action="#{playerBean.prev}" title="#{bundle.buttonLabelPrevious}">
+				<o:icon img="rewind"/>
+				<f:ajax render="playBtn repeatLink actPlaylist currPlaying"/>
+			</h:commandLink>
+		
+			<h:commandLink id="playBtn" action="#{playerBean.togglePlayStop}" title="Play/Stop">
+				<o:icon img="#{playerBean.playing == true ? 'stop' : 'play'}"/>
+				<f:ajax render="playBtn repeatLink actPlaylist currPlaying"/>
+			</h:commandLink>
+	
+			<h:commandLink action="#{playerBean.next}" title="Next">
+				<o:icon img="fast_forward"/>
+				<f:ajax render="playBtn repeatLink actPlaylist currPlaying"/>
+			</h:commandLink>
+		
+			<h:selectOneMenu onchange="submit()" value="#{playlistBean.selectedPlaylist}"
+				valueChangeListener="#{playlistBean.playlistChanged}">
+				<f:selectItems value="#{playlistBean.playlistsDropdown}"/>
+			</h:selectOneMenu>
+		
+	
+		</h:panelGrid>
+		
+		<hr/>
+		
+		<h:panelGrid columns="2" width="100%">
+		
+			<h:panelGrid columns="2" styleClass="valign-middle">
+					
+					<h:commandLink>
+						<o:icon img="refresh"/>
+						<f:ajax event="click" render="actPlaylist currPlaying repeatLink playBtn"/>
+					</h:commandLink>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel id="actPlaylist" value="Active playlist: #{playerBean.activePlaylistName}" styleClass="text-white" />
+						<h:outputLabel id="currPlaying" value="#{playerBean.currentlyPlaying}" styleClass="text-white largeText" />
+					</h:panelGrid>
+				
+			</h:panelGrid>
+			
+			<h:panelGroup styleClass="align-right">
+				<h:panelGrid columns="1" width="100%">
+					<h:commandLink id="repeatLink" action="#{playerBean.toggleRepeat}">
+						<o:icon img="#{playerBean.repeatOn == true ? 'repeatOn' : 'repeatOff'}"/>
+						<f:ajax render="repeatLink actPlaylist currPlaying playBtn"/>
+					</h:commandLink>
+				</h:panelGrid>
+			</h:panelGroup>
+			
+		
+		</h:panelGrid>
+		
+	</h:form>
+	
+	<hr/>
+    
+</ui:composition>

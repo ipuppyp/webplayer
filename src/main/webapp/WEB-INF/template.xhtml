@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title><ui:insert name="title">Default title</ui:insert></title>
+        <h:outputStylesheet library="defaultStyle" name="css/mstyles.css"/>
+        <h:outputScript library="defaultStyle" name="js/omp3p.js" />
+        <h:outputScript library="defaultStyle" name="js/jquery-1.10.2.js" />
+    </h:head>
+    <h:body>
+    	
+    	<h:panelGrid columns="1" styleClass="background" cellpadding="0" cellspacing="0" width="100%">
+    	
+	        <ui:insert name="header"></ui:insert>
+	        <ui:insert name="player"></ui:insert>
+	        <ui:insert name="content"></ui:insert>
+	        <ui:insert name="version"></ui:insert>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>

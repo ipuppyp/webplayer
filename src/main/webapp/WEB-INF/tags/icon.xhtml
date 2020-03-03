@@ -1,0 +1,13 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <h:graphicImage library="defaultStyle" name="img/#{img}.png" styleClass="icon"
+		onmouseover="onMouse(this, 'resources/defaultStyle/img/#{img}-shadow.png')" 
+		onmouseout="onMouse(this, 'resources/defaultStyle/img/#{img}.png')" 
+		onmousedown="onMouse(this, 'resources/defaultStyle/img/#{img}-pressed.png')" 
+		onmouseup="onMouse(this, 'resources/defaultStyle/img/#{img}-shadow.png')" />
+    
+</ui:composition>

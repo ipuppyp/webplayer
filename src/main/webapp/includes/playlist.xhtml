@@ -1,0 +1,70 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omp3p.com/facelets" >
+    
+    <h:panelGrid columns="1" styleClass="background" width="100%" >
+		
+		<h:form>
+		
+		<h:dataTable id="playlistTable" value="#{playlistBean.mp3List}" var="mp3File"
+			rowClasses="#{playlistBean.backgroundColorsArray}" cellpadding="0" cellspacing="0" width="100%" >
+			
+			<h:column>
+				
+				
+					<h:commandLink action="#{playlistBean.play(mp3File)}">
+						<o:icon img="play"/>
+						<f:ajax />
+					</h:commandLink>
+				
+				
+			</h:column>
+			
+			<h:column>
+				
+				<o:tags value="#{mp3File.tags}"/>
+				
+				<h:panelGrid columns="2" width="100%">
+					<h:panelGrid columns="1">
+				
+							<h:commandLink action="#{playlistBean.showSongDetails(mp3File)}">
+								<h:outputText value="#{mp3File.title}" styleClass="largeText" />
+							</h:commandLink>
+						
+						<h:outputText value="#{mp3File.artist}" />
+					</h:panelGrid>
+					<h:panelGroup styleClass="align-right">
+						<o:stars num="#{mp3File.stars}"/>
+					</h:panelGroup>
+				</h:panelGrid>
+				
+				
+			</h:column>
+			
+			<h:column>
+				
+					<h:commandLink action="#{playlistBean.putToQueue(mp3File)}" title="Put to queue" rendered="#{!playlistBean.queue}">
+						<o:icon img="toqueue"/>
+						<f:ajax />
+					</h:commandLink>
+				
+			</h:column>
+			
+			<h:column>
+					<h:commandLink action="#{playlistBean.removeMp3FromTheList(mp3File)}" title="Remove">
+						<o:icon img="remove"/>
+					</h:commandLink>
+			</h:column>
+			
+		</h:dataTable>
+		
+		</h:form>
+		
+	</h:panelGrid>
+	
+	<hr/>
+    
+</ui:composition>

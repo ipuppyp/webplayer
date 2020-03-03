@@ -1,0 +1,35 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omp3p.com/facelets" >
+    
+    <h:panelGroup styleClass="align-right">
+		<h:form>
+			<h:commandLink action="playlists">
+				<o:icon img="playlists"/>
+			</h:commandLink>
+			<h:commandLink action="#{playlistBean.gotoQueue}">
+				<o:icon img="queue"/>
+			</h:commandLink>
+			<h:graphicImage library="defaultStyle" name="img/separator.png" styleClass="icon" />
+			<h:commandLink>
+				<o:icon img="volumeDn"/>
+				<f:ajax listener="#{playerBean.volumeDown}" />
+			</h:commandLink>
+			<h:commandLink>
+				<o:icon img="volumeUp"/>
+				<f:ajax listener="#{playerBean.volumeUp}" />
+			</h:commandLink>
+			<h:graphicImage library="defaultStyle" name="img/separator.png" styleClass="icon" />
+			<h:commandLink action="settings">
+				<o:icon img="settings"/>
+			</h:commandLink>
+			<h:commandLink action="about">
+				<o:icon img="help"/>
+			</h:commandLink>
+		</h:form>
+	</h:panelGroup>
+    
+</ui:composition>

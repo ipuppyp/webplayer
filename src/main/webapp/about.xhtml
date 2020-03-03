@@ -1,0 +1,41 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:o="http://omp3p.com/facelets" >
+
+    <ui:define name="title">About</ui:define>
+    
+    <ui:define name="header">
+    	<h:panelGrid columns="2" width="100%">
+					
+			<h:panelGrid columns="2" styleClass="valign-middle">
+				<h:form>
+					<h:commandLink action="home">
+						<o:icon img="DMD"/>
+					</h:commandLink>
+				</h:form>
+				<h:outputText value="OpenMp3Player" styleClass="title" />
+			</h:panelGrid>
+			
+			<ui:include src="/includes/toolbar.xhtml"/>
+		
+		</h:panelGrid>
+		<hr/>
+    </ui:define>
+    
+    <ui:define name="content">
+    	<h:panelGrid columns="1" style="background-color: #EEE;" cellpadding="5">
+        	<ui:include src="/includes/about-data.xhtml"/>
+        </h:panelGrid>
+    </ui:define>
+    
+    
+    <ui:define name="version">
+        <ui:include src="/includes/version.xhtml"/>
+    </ui:define>
+	
+	
+
+</ui:composition>
