@@ -82,6 +82,7 @@ public class OContext {
 		
 		String homeDir = System.getProperty("omp3p.home");
 		
+		
 		// if -Domp3p.home VM arg is not set, use ../server/ directory as default
 		if (homeDir == null || homeDir.length() == 0) {
 			String[] temp = System.getProperty("catalina.home").split("server");

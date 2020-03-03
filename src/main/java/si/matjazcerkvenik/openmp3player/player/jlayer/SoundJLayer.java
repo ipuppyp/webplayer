@@ -2,15 +2,22 @@ package si.matjazcerkvenik.openmp3player.player.jlayer;
 
 import java.net.URL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javazoom.jl.decoder.JavaLayerException;
+import si.matjazcerkvenik.openmp3player.backend.DAO;
 import si.matjazcerkvenik.openmp3player.player.IPlayerCallback;
 
 
 public class SoundJLayer extends Pausable.PlaybackListener implements Runnable {
+	private static Logger logger = LoggerFactory.getLogger(SoundJLayer.class);
+	
 	private String filePath;
 	private Pausable player;
 	private Thread playerThread;
 	private IPlayerCallback callback;
+	private volatile Process process;
 
 	public SoundJLayer(String filePath, IPlayerCallback callback) {
 		this.filePath = filePath;
@@ -45,6 +52,7 @@ public class SoundJLayer extends Pausable.PlaybackListener implements Runnable {
 	
 	public void stop() {
 		// FIXME to ne dela
+		this.process.destroy();
 		this.playerThread.interrupt();
 		this.player.stop();
 	}
@@ -79,10 +87,15 @@ public class SoundJLayer extends Pausable.PlaybackListener implements Runnable {
 
 	public void run() {
 		try {
-			this.player.resume();
-		} catch (JavaLayerException ex) {
-			ex.printStackTrace();
-			callback.playEnded();
+			//this.player.resume();
+			logger.debug("start playing", filePath);
+			process = Runtime.getRuntime().exec("omxplayer " + filePath);
+			process.waitFor();
+			
+			logger.debug("ended ", filePath);
+		//} catch (JavaLayerException ex) {
+		//	ex.printStackTrace();
+		//	callback.playEnded();
 		} catch (Exception e) {
 			e.printStackTrace();
 			callback.playEnded();
