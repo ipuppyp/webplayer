@@ -1,12 +1,11 @@
 package si.matjazcerkvenik.openmp3player.player.jlayer;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javazoom.jl.decoder.JavaLayerException;
-import si.matjazcerkvenik.openmp3player.backend.DAO;
 import si.matjazcerkvenik.openmp3player.player.IPlayerCallback;
 
 
@@ -17,7 +16,7 @@ public class SoundJLayer extends Pausable.PlaybackListener implements Runnable {
 	private Pausable player;
 	private Thread playerThread;
 	private IPlayerCallback callback;
-	private volatile Process process;
+	private static volatile Process process;
 
 	public SoundJLayer(String filePath, IPlayerCallback callback) {
 		this.filePath = filePath;
@@ -52,8 +51,8 @@ public class SoundJLayer extends Pausable.PlaybackListener implements Runnable {
 	
 	public void stop() {
 		// FIXME to ne dela
-		this.process.destroy();
-		this.playerThread.interrupt();
+		//this.process.destroy();
+		//this.playerThread.interrupt();
 		this.player.stop();
 	}
 
@@ -86,13 +85,25 @@ public class SoundJLayer extends Pausable.PlaybackListener implements Runnable {
 	// IRunnable members
 
 	public void run() {
+		logger.info("process:" + process);
 		try {
+			if (process != null)  {
+				
+				
+				long pidOfProcess = getPidOfProcess(process);
+				Runtime.getRuntime().exec("kill -9 " + pidOfProcess); 
+				Runtime.getRuntime().exec("pkill omxplayer.bin");
+				
+			}
 			//this.player.resume();
-			logger.debug("start playing", filePath);
+			logger.info("start playing" + filePath);
+			long pidOfProcess = getPidOfProcess(process);
 			process = Runtime.getRuntime().exec("omxplayer " + filePath);
+			
+			logger.info("process " + pidOfProcess);
 			process.waitFor();
 			
-			logger.debug("ended ", filePath);
+			logger.info("ended " + filePath);
 		//} catch (JavaLayerException ex) {
 		//	ex.printStackTrace();
 		//	callback.playEnded();
@@ -102,5 +113,22 @@ public class SoundJLayer extends Pausable.PlaybackListener implements Runnable {
 		}
 
 	}
+	
+	public static synchronized long getPidOfProcess(Process p) {
+	    long pid = -1;
+
+	    try {
+	      if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
+	        Field f = p.getClass().getDeclaredField("pid");
+	        f.setAccessible(true);
+	        pid = f.getLong(p);
+	        f.setAccessible(false);
+	      }
+	    } catch (Exception e) {
+	      pid = -1;
+	    }
+	    return pid;
+	  }
+	
 
 }
